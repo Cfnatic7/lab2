@@ -10,6 +10,9 @@ var daneRouter = require('./routes/dane');
 
 var app = express();
 
+app.locals.ii = 0;
+global.ii = 0;
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
@@ -22,7 +25,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.user('/dane', daneRouter);
+app.use('/dane', daneRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

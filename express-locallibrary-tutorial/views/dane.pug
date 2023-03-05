@@ -2,10 +2,13 @@ block content
     form(id="dane_post", action="/dane", method="post")
         input(type="text", name="imie", value="", placeholder="tu imię")
         br
-        input(type="text", name="imie", value="", placeholder="tu nazwisko")
+        input(type="text", name="nazwisko", value="", placeholder="tu nazwisko")
         button(type="submit") POST 2 dane 
     form(id="dane_get", action="/dane", method="get")
         input(type="text", name="imie", value="", placeholder="tu imię")
         br
-        input(type="text", name="imie", value="", placeholder="tu nazwisko")
+        input(type="text", name="nazwisko", value="", placeholder="tu nazwisko")
         button(type="submit") POST 2 dane 
+    p Local (route-scope) varlable value is #{localVar}
+    p Global (app-scope: global.ii) variable value is #{globalVar1}
+    p Global (app-scope: app.local.ii) variable value is #{globalVar2}

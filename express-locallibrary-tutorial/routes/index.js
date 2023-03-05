@@ -1,14 +1,16 @@
 var express = require('express');
 var router = express.Router();
+let i = 0;
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { 
-    title: 'Express',
-    method: 'GET',
-    userAgentIp: req.ip,
-    serverAddress: req.hostname,
-    accept: req.get('accept')
+  i++;
+  req.app.locals.ii++;
+  ii++;
+  res.render('dane', {
+    localVar: i,
+    globalVar1: ii,
+    globalVar2: req.app.locals.ii
   });
 });
 
