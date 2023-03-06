@@ -35,6 +35,7 @@ app.use(cookieSession({
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/dane', daneRouter);
+app.use('/chat', chatRouter);
 app.set('trust proxy', 1) // trust first proxy
 
 // catch 404 and forward to error handler

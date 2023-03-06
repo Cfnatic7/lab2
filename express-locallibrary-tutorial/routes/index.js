@@ -38,7 +38,7 @@ router.get('/:name/:age', (req, res, next) => {
   res.send(`name: ${req.params.name}, age: ${req.params.age}`);
 })
 
-router.get('/login-form', (req, res, next) => {
+router.get('/login', (req, res, next) => {
   req.session.loggedIn = (req.session.loggedIn || false);
   res.render('sign-in-form', { 
     error: false,
