@@ -4,14 +4,30 @@ var login = require('../controller/authenticate/login');
 
 let i = 0;
 
-let loggedIn = false;
+router.get('/d', function(req, res, next) {
+  i++;
+  req.app.locals.ii++;
+  ii++;
+  req.session.views = (req.session.views || 0) + 1
+  res.render('dane', {
+    counter: req.session.views,
+    username: req.session.username ? req.session.username : '',
+    loggedIn: req.session.loggedIn ? true : false,
+    localVar: i,
+    globalVar1: ii,
+    globalVar2: req.app.locals.ii
+  });
+});
 
-/* GET home page. */
 router.get('/', function(req, res, next) {
   i++;
   req.app.locals.ii++;
   ii++;
-  res.render('dane', {
+  req.session.views = (req.session.views || 0) + 1
+  res.render('index', {
+    counter: req.session.views,
+    username: req.session.username ? req.session.username : '',
+    loggedIn: req.session.loggedIn ? true : false,
     localVar: i,
     globalVar1: ii,
     globalVar2: req.app.locals.ii
@@ -23,9 +39,10 @@ router.get('/:name/:age', (req, res, next) => {
 })
 
 router.get('/login-form', (req, res, next) => {
+  req.session.loggedIn = (req.session.loggedIn || false);
   res.render('sign-in-form', { 
     error: false,
-    loggedIn
+    loggedIn: req.session.loggedIn
    });
 })
 
@@ -33,20 +50,28 @@ router.post('/login', function (req, res, next) {
   const username = req.body.username;
       let loginResult = login(username, req.body.password);
   if (loginResult) {
-          loggedIn = true;
-          res.render('users', {username: username, loggedIn});
+          req.session.username = username;
+          req.session.loggedIn = true;
+          res.render('users', {
+            username: username, 
+            loggedIn: req.session.loggedIn
+          });
       }
       else {
-          loggedIn = false;
-          res.render('sign-in-form', {error: true, loggedIn});
+          req.session.loggedIn = false;
+          res.render('sign-in-form', {
+            error: true, 
+            loggedIn: req.session.loggedIn
+          });
       }
   });
 
 router.get('/logout', (req, res, next) => {
-  loggedIn = false;
+  req.session.loggedIn = false;
+  req.session.username = null;
   res.render('sign-in-form', { 
     error: false,
-    loggedIn
+    loggedIn: req.session.loggedIn
    });
 })
 
