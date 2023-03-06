@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
-router.post('/', (req, res) => {
+router.post('/', async (req, res) => {
     try {
         if(!req.files) {
             res.send({
@@ -11,7 +11,7 @@ router.post('/', (req, res) => {
         } else {
             let file = req.files.file;
             
-            file.mv('../uploads/' + file.name);
+            await file.mv('../uploads/' + file.name);
 
             res.status(204).send();
         }
@@ -21,6 +21,7 @@ router.post('/', (req, res) => {
 });
 
 router.get('/:fileName', (req, res, next) => {
+    console.log(req.params.fileName);
     res.download('../uploads/' + req.params.fileName, (err) => {
         if(err) {
             console.log(err);

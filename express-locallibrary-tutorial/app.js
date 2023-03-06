@@ -4,7 +4,9 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var cookieSession = require('cookie-session')
+const bodyParser = require('body-parser');
 const cors = require('cors');
+const fileUpload = require('express-fileupload');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -23,9 +25,15 @@ app.set('view engine', 'pug');
 
 app.use(logger('dev'));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
 app.use(cookieParser());
+app.use(cors());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(fileUpload({
+  createParentPath: true,
+  debug: true
+}));
 app.use(cookieSession({
   name: 'session',
   keys: ['secret'],
@@ -34,22 +42,19 @@ app.use(cookieSession({
   maxAge: 24 * 60 * 60 * 1000 // 24 hours
 }))
 
-app.use('/', indexRouter);
+app.use('/index', indexRouter);
 app.use('/users', usersRouter);
 app.use('/dane', daneRouter);
 app.use('/chat', chatRouter);
 app.use('/file', fileRouter);
 app.set('trust proxy', 1) // trust first proxy
 
+app.use(express.static('uploads'));
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
 });
-
-app.use(fileUpload({
-  createParentPath: true
-}));
-app.use(cors());
 
 // error handler
 app.use(function(err, req, res, next) {
