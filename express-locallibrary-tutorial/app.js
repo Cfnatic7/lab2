@@ -8,6 +8,7 @@ var cookieSession = require('cookie-session')
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var daneRouter = require('./routes/dane');
+var chatRouter = require('./routes/chat.js');
 
 var app = express();
 
