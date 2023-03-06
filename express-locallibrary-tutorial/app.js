@@ -4,11 +4,13 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var cookieSession = require('cookie-session')
+const cors = require('cors');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var daneRouter = require('./routes/dane');
 var chatRouter = require('./routes/chat.js');
+var fileRouter = require('./routes/file');
 
 var app = express();
 
@@ -36,12 +38,18 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/dane', daneRouter);
 app.use('/chat', chatRouter);
+app.use('/file', fileRouter);
 app.set('trust proxy', 1) // trust first proxy
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
 });
+
+app.use(fileUpload({
+  createParentPath: true
+}));
+app.use(cors());
 
 // error handler
 app.use(function(err, req, res, next) {
