@@ -34,11 +34,11 @@ router.post('/login', function (req, res, next) {
       let loginResult = login(username, req.body.password);
   if (loginResult) {
           loggedIn = true;
-          res.render('users', {username: username});
+          res.render('users', {username: username, loggedIn});
       }
       else {
           loggedIn = false;
-          res.render('index', {error: true});
+          res.render('sign-in-form', {error: true, loggedIn});
       }
   });
 
